@@ -7,6 +7,7 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
+var port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -37,13 +38,13 @@ app.get('/todos/:id', (req, res) => {
   var id = req.params.id;
 
   if(!ObjectID.isValid(id)) {
-    res.status(407).send();
+    res.status(404).send();
     console.log("fuck")
     return;
   }
   Todo.findById(id).then((todo) => {
     if (!todo) {
-      res.status(405).send();
+      res.status(404).send();
       console.log("fuck me")
       return;
     }
@@ -53,8 +54,8 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Started on port 3000');
+app.listen(port, () => {
+  console.log(`Started on port ${port}`);
 });
 
 
